@@ -68,7 +68,6 @@ export const BarChart = (props) => {
         },
         grid: {
           color: function (context) {
-            console.log("🚀 ~ BarChart ~ context.tick.value:", context.tick.value)
             if (context.tick.value >= 2) {
               return 'green';
             } else {

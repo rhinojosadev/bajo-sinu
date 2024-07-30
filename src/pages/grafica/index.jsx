@@ -4,8 +4,8 @@ import { BarChart } from '../../components/grafica/BarChart';
 
 export const Grafica = () => {
     const urls = {
-        // bovinosCordoba: 'https://pruebas.correa.redhumus.org/agua2/api/bovinos/cordoba',
-        bovinosCordoba: 'http://localhost:8000/agua2/api/bovinos/cordoba',
+        bovinosCordoba: 'https://pruebas.correa.redhumus.org/agua2/api/bovinos/cordoba',
+        // bovinosCordoba: 'http://localhost:8000/agua2/api/bovinos/cordoba',
     }
 
     const [dataBovinosCordoba, setDataBovinosCordoba] = useState({
