@@ -1,7 +1,9 @@
 import  Hero1  from '../../../assets/images/hero1.png';
 import React, { useState } from 'react';
 
-export const Carousel = () => {
+import './style.css';
+
+export const Carousel = ({children}) => {
 
     const [scrollAmount, setScrollAmount] = useState(0);
     const carouselRef = React.createRef();
@@ -46,6 +48,7 @@ export const Carousel = () => {
             </div>
             <button onClick={handlePrev} className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-lg">Prev</button>
             <button onClick={handleNext} className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-lg">Next</button>
+            {children}
         </div>
     )
 }
