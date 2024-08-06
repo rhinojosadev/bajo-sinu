@@ -1,19 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-import { BarChart } from '../../components/grafica/BarChart';
-import { Timeline } from '../../components/grafica/Timeline';
-import BarChartAgricola from '../../components/grafica/BarChartAgricola';
+import { MultiSelect } from '../../components/common/MultiSelect';
 import { SingleSelect } from '../../components/common/SingleSelect';
-
-// const dataAgricola = {
-//     data: [
-//         { municipality: "cotorra", product: "yuca", value: 708.0, year: 2007.0 },
-//         { municipality: "momil", product: "yuca", value: 3950.0, year: 2007.0 },
-//         { municipality: "cotorra", product: "mango", value: 80.0, year: 2007.0 },
-
-//         { municipality: "momil", product: "mango", value: 201.5, year: 2021.0 }
-//     ]
-// };
+import { BarChart } from '../../components/grafica/BarChart';
+import BarChartAgricola from '../../components/grafica/BarChartAgricola';
+import { Timeline } from '../../components/grafica/Timeline';
 
 export const Grafica = () => {
     const urls = {
@@ -31,6 +22,47 @@ export const Grafica = () => {
             'Area Cosechada',
             'Produccion (ton)',
             'Rendimiento (ha/ton)',
+        ],
+        products: [
+            'Maiz-blanco-tradicional',
+            'Pepino-cohombro',
+            'Palma-aceite',
+            'Caucho',
+            'Hortalizas-varias',
+            'Limon',
+            'Soya',
+            'Maracuya',
+            'Plantas-aromaticas',
+            'Frutales-varios',
+            'Cilantro',
+            'Platano',
+            'Ñame',
+            'Patilla',
+            'Piña',
+            'Arroz-secano-manual',
+            'Maiz-tecnificado',
+            'Coco',
+            'Tomate',
+            'Berenjena',
+            'Mango',
+            'Maiz-tradicional',
+            'Algodon',
+            'Sorgo',
+            'Arroz-secano-mecanizado',
+            'Batata',
+            'Yuca-industrial',
+            'Frijol',
+            'Naranja',
+            'Yuca',
+            'Arroz-riego',
+            'Maiz-blanco-tecnificado'
+        ],
+        municipalities: [
+            'Chima',
+            'Lorica',
+            'Momil',
+            'Cotorra',
+            'Purisima'
         ]
     }
 
@@ -54,15 +86,33 @@ export const Grafica = () => {
     });
 
     const [dataAgricolaParams, setDataAgricolaParams] = useState({
-        variable: '',
-        products: '',
-        municipalities: '',
+        variable: options.variables[0],
+        products: options.products[0],
+        municipalities: options.municipalities[0],
     });
 
     const handleChangeVariableSelect = (value) => {
         setDataAgricolaParams({
             ...dataAgricolaParams,
             variable: value
+        });
+    };
+
+    const handleChangeProductSelect = (values) => {
+        console.log("🚀 ~ handleChangeProductSelect ~ values1:", values)
+        values = values.toString()
+        console.log("🚀 ~ handleChangeProductSelect ~ values2:", values)
+
+        setDataAgricolaParams({
+            ...dataAgricolaParams,
+            products: values
+        });
+    };
+
+    const handleChangeMunicipalitiesSelect = (value) => {
+        setDataAgricolaParams({
+            ...dataAgricolaParams,
+            municipalities: value
         });
     };
 
@@ -120,34 +170,27 @@ export const Grafica = () => {
         const fetchData = async () => {
             try {
                 const params = {
-                    variable: dataAgricolaParams.variable
+                    variable: dataAgricolaParams.variable,
+                    products: dataAgricolaParams.products,
+                    municipalities: dataAgricolaParams.municipalities
                 };
 
                 const url = new URL(urls.agricola);
                 url.search = new URLSearchParams(params).toString();
                 const response = await fetch(url);
-                console.log("🚀 ~ fetchData ~ url:", url)
-
                 const result = await response.json();
-                console.log("🚀 ~ fetchData ~ agricola:", result)
 
-                // const data = result.data.map(cat => {
-                //     return {
-                //         name: cat.name,
-                //         startDate: cat.startDate,
-                //         endDate: cat.endDate,
-                //         label: cat.label,
-                //         color: cat.color
-                //     }
-                // })
-                // setDataAgricola({ data, startDate: result.start_date });
+                setDataAgricola({
+                    data: result.data,
+                    title: result.title
+                });
             } catch (error) {
                 console.error('[setDataAgricola] Error fetching data:', error);
             }
         };
 
         fetchData();
-    }, [urls.agricola, dataAgricolaParams.variable]);
+    }, [urls.agricola, dataAgricolaParams.variable, dataAgricolaParams.products, dataAgricolaParams.municipalities]);
 
     return (
         <>
@@ -173,8 +216,22 @@ export const Grafica = () => {
                 </div>
             </>
             <>
-                <h1> Hellow </h1>
-                <SingleSelect options={options.variables} onChange={handleChangeVariableSelect} />
+                <h1> {dataAgricola.title} </h1>
+                <SingleSelect
+                    options={options.variables}
+                    onChange={handleChangeVariableSelect}
+                    title='Variable'
+                />
+                <MultiSelect
+                    options={options.products}
+                    onChange={handleChangeProductSelect}
+                    title='Productos'
+                />
+                <MultiSelect
+                    options={options.municipalities}
+                    onChange={handleChangeMunicipalitiesSelect}
+                    title='Municipios'
+                />
                 <div className=''>
                     <BarChartAgricola
                         data={dataAgricola.data}

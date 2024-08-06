@@ -1,11 +1,12 @@
+import { BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Title, Tooltip } from 'chart.js';
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const BarChartAgricola = (props) => {
   const data = props.data;
+  const title = props.title;
 
   const years = [...new Set(data.map(item => item.year))];
   const products = [...new Set(data.map(item => item.product))];
@@ -67,10 +68,6 @@ const BarChartAgricola = (props) => {
             }));
           },
         },
-      },
-      title: {
-        display: true,
-        text: `Producción de "${municipalities}" por Municipio y Año`,
       },
       tooltip: {
         callbacks: {

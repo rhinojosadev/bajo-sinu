@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-export const SingleSelect = ({ options, onChange }) => {
+export const SingleSelect = ({ title, options, onChange }) => {
   const [value, setValue] = useState('');
 
   const handleChange = (event) => {
@@ -10,14 +10,19 @@ export const SingleSelect = ({ options, onChange }) => {
     onChange(newValue); // enviar al padre
   };
 
+  const renderOptions = (options) => {
+    return options.map((option) => (
+      <option key={option} value={option}>
+        {option}
+      </option>
+    ));
+  };
+
   return (
     <div>
-      <h2>Single Select</h2>
+      <h2>{title}</h2>
       <select value={value} onChange={handleChange}>
-        <option value="" disabled>Select an option</option>
-        <option value="Option 1">Option 1</option>
-        <option value="Option 2">Option 2</option>
-        <option value="Option 3">Option 3</option>
+        {renderOptions(options)}
       </select>
     </div>
   );
