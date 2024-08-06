@@ -8,20 +8,21 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 export const Timeline = (props) => {
   const dataDb = props.data
+  const startDate = props.startDate
 
-  const baseDate = new Date('2021-01-01');
+  const baseDate = new Date(startDate);
   const getDays = (date) => (date ? Math.floor((parseISO(date) - baseDate) / (1000 * 60 * 60 * 24)) : null);
 
   const dataChart = {
     labels: dataDb.map(cat => cat.name),
     datasets: [
       {
-        label: '',
+        label: '', // invisible
         data: dataDb.map(cat => {
           const start = getDays(cat.startDate);
           return start !== null ? start : 0;
         }),
-        backgroundColor: 'rgba(0, 0, 0, 0)', // Invisible
+        backgroundColor: 'rgba(0, 0, 0, 0)', // invisible
       },
       {
         label: dataDb.map(cat => cat.label),
@@ -50,7 +51,7 @@ export const Timeline = (props) => {
     },
     plugins: {
       legend: {
-        display: false, // Ocultar la leyenda
+        display: false,
       },
       tooltip: {
         callbacks: {

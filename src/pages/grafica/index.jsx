@@ -3,17 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { BarChart } from '../../components/grafica/BarChart';
 import { Timeline } from '../../components/grafica/Timeline';
 
-
-const dbData = [
-    { name: 'Boca Nueva colombia', startDate: '2021-01-01', endDate: '2021-09-03', label: 'ggg', color: 'rgba(75, 192, 192, 0.6)' },
-    { name: 'Crecientes', startDate: '2021-03-01', endDate: '2021-05-01', label: 'ggg', color: 'rgba(75, 192, 192, 0.6)' },
-    { name: 'La gran inundacion', startDate: '2021-12-01', endDate: '2023-09-03', label: 'f4', color: 'rgba(155, 192, 0, 1)' },
-];
-
 export const Grafica = () => {
     const urls = {
         bovinosCordoba: 'https://pruebas.correa.redhumus.org/agua2/api/bovinos/cordoba',
+        timeline: 'https://pruebas.correa.redhumus.org/agua2/api/timelines',
         // bovinosCordoba: 'http://localhost:8000/agua2/api/bovinos/cordoba',
+        // timeline: 'http://localhost:8000/agua2/api/timelines',
     }
 
     const [dataBovinosCordoba, setDataBovinosCordoba] = useState({
@@ -22,6 +17,12 @@ export const Grafica = () => {
         title: '',
         yTitle: '',
         xTitle: ''
+    });
+
+    const [dataTimeline, setDataTimeline] = useState({
+        data: [],
+        startDate: '',
+        title: ''
     });
 
     useEffect(() => {
@@ -38,19 +39,37 @@ export const Grafica = () => {
                     xTitle: result.x_title
                 });
             } catch (error) {
-                console.error('Error fetching data:', error);
+                console.error('[setDataBovinosCordoba] Error fetching data:', error);
+            }
+
+            try {
+                const response = await fetch(urls.timeline);
+                const result = await response.json();
+
+                const data = result.data.map(cat => {
+                    return {
+                        name: cat.name,
+                        startDate: cat.startDate,
+                        endDate: cat.endDate,
+                        label: cat.label,
+                        color: cat.color
+                    }
+                })
+                setDataTimeline({ data, startDate: result.start_date });
+            } catch (error) {
+                console.error('[setDataTimeline] Error fetching data:', error);
             }
         };
 
         fetchData();
-    }, [urls.bovinosCordoba]);
+    }, [urls.bovinosCordoba, urls.timeline]);
 
     return (
         <>
             <p>Graficas</p>
             <>
                 <h1> {dataBovinosCordoba.title} </h1>
-                <div className='h-96'>
+                <div className=''>
                     <BarChart
                         datasets={dataBovinosCordoba.datasets}
                         labels={dataBovinosCordoba.labels}
@@ -60,11 +79,12 @@ export const Grafica = () => {
                 </div>
             </>
             <>
-                <h1> sd </h1>
-                <div className='h-96'>
-                    <Timeline
-                        data={dbData}
-                    />
+                <h1> {dataTimeline.title} </h1>
+                <div className=''>
+                    {dataTimeline.startDate && <Timeline
+                        data={dataTimeline.data}
+                        startDate={dataTimeline.startDate}
+                    />}
                 </div>
             </>
         </>
