@@ -10,9 +10,9 @@ import { Timeline } from '../../components/grafica/Timeline';
 
 export const Grafica = () => {
     const urls = {
-        bovinosCordoba: 'http://localhost:8000/agua2/api/bovinos/cordoba',
-        timeline: 'http://localhost:8000/agua2/api/timelines',
-        agricola: 'http://localhost:8000/agua2/api/agricola'
+        bovinosCordoba: 'https://pruebas.correa.redhumus.org/agua2/api/bovinos/cordoba',
+        timeline: 'https://pruebas.correa.redhumus.org/agua2/api/timelines',
+        agricola: 'https://pruebas.correa.redhumus.org/agua2/api/agricola'
     };
 
     const options = {
