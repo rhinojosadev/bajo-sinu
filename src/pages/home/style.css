@@ -22,3 +22,9 @@
 .primary-color {
     color: #00b3ee;
 }
+
+.box-graph {
+    background-color: #b77239;
+    color: white;
+    border: 10px solid #ffac2e;
+}
