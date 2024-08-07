@@ -7,6 +7,8 @@ import { SingleSelect } from '../../components/common/SingleSelect';
 import { BarChart } from '../../components/grafica/BarChart';
 import BarChartAgricola from '../../components/grafica/BarChartAgricola';
 import { Timeline } from '../../components/grafica/Timeline';
+import { Header } from '../../components/header/header';
+
 
 export const Grafica = () => {
     const urls = {
@@ -95,6 +97,7 @@ export const Grafica = () => {
 
     return (
         <>
+            <Header/>
             <section className={'secA'}>
                 <h1>{dataBovinosCordoba.title}</h1>
                 <div>
