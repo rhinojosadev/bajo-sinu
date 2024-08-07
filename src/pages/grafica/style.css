@@ -1,0 +1,54 @@
+.container-options-agricola {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.w-50 {
+    width: 50%;
+    padding: 5px;
+}
+
+.h-50 {
+    height: 50%;
+    padding: 5px;
+}
+
+.secA {
+    margin: 1rem;
+    width: 48%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.secB {
+    margin: 1rem;
+    width: 48%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.secC {
+    width: 100%;
+    margin-top: 1rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.f-center {
+    display: flex;
+    align-self: center;
+}
+
+@media (max-width: 768px) {
+    .secA, .secB {
+        width: 100%;
+        display: block;
+        margin-bottom: 1rem;
+    }
+
+    .secC {
+        width: 100%;
+    }
+}

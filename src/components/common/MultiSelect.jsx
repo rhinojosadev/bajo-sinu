@@ -1,35 +1,32 @@
 import { useState } from "react";
+import Select from 'react-select';
 
 export const MultiSelect = ({ title, options, onChange }) => {
   const [values, setValues] = useState([]);
 
-  const handleChange = (event) => {
-    const options = event.target.options;
-    const selectedValues = [];
-    for (const option of options) {
-      if (option.selected) {
-        selectedValues.push(option.value);
-      }
-    }
-    setValues(selectedValues);
+  const handleChange = (selectedOption) => {
+    setValues(selectedOption);
 
+    const selectedValues = selectedOption.map((option) => option.label);
     onChange(selectedValues); // enviar al padre
   };
 
-  const renderOptions = (options) => {
-    return options.map((option) => (
-      <option key={option} value={option}>
-        {option}
-      </option>
-    ));
-  };
+  const optionsFormatted = options.map((option) => ({
+    value: option,
+    label: option,
+  }));
 
   return (
     <div>
       <h2>{title}</h2>
-      <select multiple={true} value={values} onChange={handleChange}>
-        {renderOptions(options)}
-      </select>
+      <Select
+        isMulti
+        defaultValue={optionsFormatted[0]}
+        className="basic-multi-select"
+        classNamePrefix="select"
+        options={optionsFormatted}
+        onChange={handleChange}
+      />
     </div>
   );
 };

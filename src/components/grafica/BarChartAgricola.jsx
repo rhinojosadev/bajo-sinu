@@ -6,7 +6,6 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const BarChartAgricola = (props) => {
   const data = props.data;
-  const title = props.title;
 
   const years = [...new Set(data.map(item => item.year))];
   const products = [...new Set(data.map(item => item.product))];
